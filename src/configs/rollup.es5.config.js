@@ -20,14 +20,8 @@
 const path = require('path')
 const process = require('process')
 const fs = require('fs')
-const babel = require('@rollup/plugin-babel').babel
 const resolve = require('@rollup/plugin-node-resolve').nodeResolve
 const commonjs = require('@rollup/plugin-commonjs')
-const babelPresetEnv = require('@babel/preset-env')
-const babelPresetTypescript = require('@babel/preset-typescript')
-const babelPluginTransFormSpread = require('@babel/plugin-transform-spread')
-const babelPluginTransFormParameters = require('@babel/plugin-transform-parameters')
-const babelPluginClassProperties = require('@babel/plugin-proposal-class-properties')
 const alias = require('@rollup/plugin-alias')
 const json = require('@rollup/plugin-json')
 const virtual = require('@rollup/plugin-virtual')
@@ -84,30 +78,6 @@ const defaultConfig = {
     }),
     resolve({ extensions, mainFields: buildHelpers.getResolveConfigForBundlers() }),
     commonjs({ sourceMap: false }),
-    babel({
-      presets: [
-        [
-          babelPresetEnv,
-          {
-            targets: {
-              chrome: '39',
-            },
-            spec: false,
-            debug: false,
-            useBuiltIns: 'entry',
-            corejs: '^3.6.5',
-          },
-        ],
-        [babelPresetTypescript],
-      ],
-      extensions,
-      babelHelpers: 'bundled',
-      plugins: [
-        babelPluginTransFormSpread,
-        babelPluginTransFormParameters,
-        babelPluginClassProperties,
-      ],
-    }),
     (process.env.LNG_BUILD_MINIFY === 'true' || process.env.NODE_ENV === 'production') &&
       minify({ keep_fnames: true }),
     license({
