@@ -224,6 +224,11 @@ const bundleAppRollup = (folder, metadata, type, options) => {
   ]
 
   const rollupConfig = require(path.join(__dirname, `../configs/rollup.${type}.config.js`))
+  if (!rollupConfig) {
+    spinner.fail(`Error no rollup ${type} config found`)
+    process.exit(1)
+  }
+
   // Check if 'input' property is not present in the rollupConfig object
   if (!('input' in rollupConfig)) {
     //if 'input' is not present, push the input option and location of source file to the args
